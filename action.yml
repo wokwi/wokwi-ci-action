@@ -1,0 +1,40 @@
+name: 'Wokwi IoT and Embedded System Simulator'
+description: 'This action tests your firmware builds with the Wokwi Simulator'
+branding:
+  color: blue
+  icon: play
+inputs:
+  token:
+    description: 'Wokwi API token'
+    required: true
+  path:
+    description: 'Path to the directory where wokwi.toml is, relative to the root of your repository'
+    default: '/'
+    required: false
+  timeout:
+    description: 'Timeout in milliseconds for the simulation'
+    default: '10000'
+    required: false
+  expect_text:
+    description: 'Text to expect in the serial output, test will fail if not found'
+    default: ''
+    required: false
+  fail_text:
+    description: 'Text that fails the test if found in the serial output'
+    default: ''
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install wokwi-cli
+      run: |
+        wget -q -O /usr/local/bin/wokwi-cli https://github.com/wokwi/wokwi-cli/releases/latest/download/wokwi-cli-linuxstatic-x64
+        chmod +x /usr/local/bin/wokwi-cli
+      shell: bash
+    - run: |
+        wokwi-cli --timeout "${{ inputs.timeout }}" --expect-text "${{ inputs.expect_text }}" --fail-text "${{ inputs.expect_text }}" "${GITHUB_WORKSPACE}${{ inputs.path }}"
+      env:
+        WOKWI_CLI_TOKEN: ${{ inputs.token }}
+      shell: bash
+
