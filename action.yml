@@ -33,7 +33,7 @@ runs:
         chmod +x /usr/local/bin/wokwi-cli
       shell: bash
     - run: |
-        wokwi-cli --timeout "${{ inputs.timeout }}" --expect-text "${{ inputs.expect_text }}" --fail-text "${{ inputs.expect_text }}" "${GITHUB_WORKSPACE}${{ inputs.path }}"
+        wokwi-cli --timeout "${{ inputs.timeout }}" --expect-text "${{ inputs.expect_text }}" --fail-text "${{ inputs.expect_text }}" "${GITHUB_WORKSPACE}/${{ inputs.path }}"
       env:
         WOKWI_CLI_TOKEN: ${{ inputs.token }}
       shell: bash
