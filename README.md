@@ -11,6 +11,7 @@ Add the following step to your workflow:
   uses: wokwi/wokwi-ci-action@v1
   with:
     token: ${{ secrets.WOKWI_CLI_TOKEN }}
+    path: /    # directory with wokwi.toml, relative to repo's root
     timeout: 10000
     expect_text: 'Hello, world!'
     fail_text: 'Error'
