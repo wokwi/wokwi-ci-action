@@ -11,10 +11,11 @@ Add the following step to your workflow:
   uses: wokwi/wokwi-ci-action@v1
   with:
     token: ${{ secrets.WOKWI_CLI_TOKEN }}
-    path: /    # directory with wokwi.toml, relative to repo's root
+    path: / # directory with wokwi.toml, relative to repo's root
     timeout: 10000
     expect_text: 'Hello, world!'
     fail_text: 'Error'
+    scenario: 'test-hello-world.yaml' # optional
 ```
 
 You need to set the `WOKWI_CLI_TOKEN` secret in your repository settings. You can get the token from the your [Wokwi account page](https://wokwi.com/dashboard/profile).
@@ -23,10 +24,11 @@ Your repository needs to contain a `wokwi.toml` file that describes the simulati
 
 ## Inputs
 
-| Name          | Description                                         | Default |
-| ------------- | --------------------------------------------------- | ------- |
-| `token`       | Wokwi CLI token                                     |         |
-| `path`        | Path to the project directory (where wokwi.toml is) | /       |
-| `timeout`     | Timeout in milliseconds                             | 10000   |
-| `expect_text` | Text to expect in the serial output                 |         |
-| `fail_text`   | Text that indicates a test failure                  |         |
+| Name          | Description                                                | Default |
+| ------------- | ---------------------------------------------------------- | ------- |
+| `token`       | Wokwi CLI token                                            |         |
+| `path`        | Path to the project directory (where wokwi.toml is)        | /       |
+| `timeout`     | Timeout in milliseconds                                    | 10000   |
+| `expect_text` | Text to expect in the serial output                        |         |
+| `fail_text`   | Text that indicates a test failure                         |         |
+| `scenario`    | Path to scenario yaml file (relative to project directory) |         |
