@@ -18,7 +18,7 @@ Add the following step to your workflow:
     scenario: 'test-hello-world.yaml' # optional
 ```
 
-You need to set the `WOKWI_CLI_TOKEN` secret in your repository settings. You can get the token from the your [Wokwi account page](https://wokwi.com/dashboard/profile).
+You need to set the `WOKWI_CLI_TOKEN` secret in your repository settings. You can get the token from the [Wokwi CI Dashboard](https://wokwi.com/dashboard/ci).
 
 Your repository needs to contain a `wokwi.toml` file that describes the simulation to run, and a `diagram.json` file that describes the components in the simulation and their connections. For more information, see the [project config documentation](https://docs.wokwi.com/vscode/project-config).
 
