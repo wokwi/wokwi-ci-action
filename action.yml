@@ -41,4 +41,5 @@ runs:
           --fail-text "${{ inputs.fail_text }}" --scenario "${{ inputs.scenario }}" "${GITHUB_WORKSPACE}/${{ inputs.path }}"
       env:
         WOKWI_CLI_TOKEN: ${{ inputs.token }}
+        FORCE_COLOR: 2  # Enables color output - see https://github.com/chalk/supports-color/issues/106
       shell: bash
