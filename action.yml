@@ -27,7 +27,11 @@ inputs:
     description: 'Path to scenario yaml file (relative to project directory)'
     default: ''
     required: false
-
+  serial_log_file:
+    description: 'Serial log file to be written (relative to project directory)'
+    default: ''
+    required: false
+    
 runs:
   using: 'composite'
   steps:
@@ -38,7 +42,8 @@ runs:
       shell: bash
     - run: |
         wokwi-cli --timeout "${{ inputs.timeout }}" --expect-text "${{ inputs.expect_text }}" \
-          --fail-text "${{ inputs.fail_text }}" --scenario "${{ inputs.scenario }}" "${GITHUB_WORKSPACE}/${{ inputs.path }}"
+          --fail-text "${{ inputs.fail_text }}" --scenario "${{ inputs.scenario }}" "${GITHUB_WORKSPACE}/${{ inputs.path }}" \
+          --serial-log-file "${{ inputs.serial_log_file }}"
       env:
         WOKWI_CLI_TOKEN: ${{ inputs.token }}
         FORCE_COLOR: 2  # Enables color output - see https://github.com/chalk/supports-color/issues/106
