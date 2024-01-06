@@ -16,6 +16,7 @@ Add the following step to your workflow:
     expect_text: 'Hello, world!'
     fail_text: 'Error'
     scenario: 'test-hello-world.yaml' # optional
+    serial_log_file: 'log-hello-world.txt' # optional
 ```
 
 You need to set the `WOKWI_CLI_TOKEN` secret in your repository settings. You can get the token from the [Wokwi CI Dashboard](https://wokwi.com/dashboard/ci).
@@ -32,3 +33,4 @@ Your repository needs to contain a `wokwi.toml` file that describes the simulati
 | `expect_text` | Text to expect in the serial output                        |         |
 | `fail_text`   | Text that indicates a test failure                         |         |
 | `scenario`    | Path to scenario yaml file (relative to project directory) |         |
+| `serial_log_file` | Path to the serial log file (relative to project directory) |  /  |
