@@ -33,4 +33,4 @@ Your repository needs to contain a `wokwi.toml` file that describes the simulati
 | `expect_text` | Text to expect in the serial output                        |         |
 | `fail_text`   | Text that indicates a test failure                         |         |
 | `scenario`    | Path to scenario yaml file (relative to project directory) |         |
-| `serial_log_file` | Path to the serial log file (relative to project directory) |  /  |
+| `serial_log_file` | Serial log file to be written (relative to project directory) |  /  |
