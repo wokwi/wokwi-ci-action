@@ -41,10 +41,12 @@ runs:
         chmod +x /usr/local/bin/wokwi-cli
       shell: bash
     - run: |
-        wokwi-cli --timeout "${{ inputs.timeout }}" --expect-text "${{ inputs.expect_text }}" \
-          --fail-text "${{ inputs.fail_text }}" --scenario "${{ inputs.scenario }}" "${GITHUB_WORKSPACE}/${{ inputs.path }}" \
+        wokwi-cli --timeout "${{ inputs.timeout }}" --expect-text "$CI_EXPECT_TEXT" \
+          --fail-text "$CI_FAIL_TEXT" --scenario "${{ inputs.scenario }}" "${GITHUB_WORKSPACE}/${{ inputs.path }}" \
           --serial-log-file "${{ inputs.serial_log_file }}"
       env:
         WOKWI_CLI_TOKEN: ${{ inputs.token }}
         FORCE_COLOR: 2  # Enables color output - see https://github.com/chalk/supports-color/issues/106
+        CI_EXPECT_TEXT: ${{ inputs.expect_text }}
+        CI_FAIL_TEXT: ${{ inputs.fail_text }}
       shell: bash
