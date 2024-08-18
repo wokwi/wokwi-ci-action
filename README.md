@@ -25,12 +25,16 @@ Your repository needs to contain a `wokwi.toml` file that describes the simulati
 
 ## Inputs
 
-| Name          | Description                                                | Default |
-| ------------- | ---------------------------------------------------------- | ------- |
-| `token`       | Wokwi CLI token                                            |         |
-| `path`        | Path to the project directory (where wokwi.toml is)        | /       |
-| `timeout`     | Timeout in milliseconds                                    | 10000   |
-| `expect_text` | Text to expect in the serial output                        |         |
-| `fail_text`   | Text that indicates a test failure                         |         |
-| `scenario`    | Path to scenario yaml file (relative to project directory) |         |
-| `serial_log_file` | Serial log file to be written (relative to project directory) |  /  |
+| Name              | Description                                                                      | Default       |
+|-------------------|----------------------------------------------------------------------------------|---------------|
+| `token`           | Wokwi CLI token                                                                  |               |
+| `path`            | Path to the project directory (where wokwi.toml is)                              | /             |
+| `timeout`         | Timeout in milliseconds                                                          | 10000         |
+| `expect_text`     | Text to expect in the serial output                                              |               |
+| `fail_text`       | Text that indicates a test failure                                               |               |
+| `scenario`        | Path to scenario yaml file (relative to project directory)                       |               |
+| `serial_log_file` | Serial log file to be written (relative to project directory)                    | /             |
+| `diagram_file`    | Path to diagram.json file (relative to project directory)                        | diagram.json  |
+| `elf`             | Path to the ELF file to load into the simulation (relative to project directory) | wokwi.toml \* |
+
+\* If not specified, the action will look for the `firmware` or `elf` keys in the `wokwi.toml` file.
