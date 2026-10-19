@@ -60,7 +60,7 @@ For ESP-IDF firmware, the action can follow the free heap during the simulation 
 
 - name: Upload heap samples
   if: always()
-  uses: actions/upload-artifact@v4
+  uses: actions/upload-artifact@v7
   with:
     name: heap
     path: heap.csv
