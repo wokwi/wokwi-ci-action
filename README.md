@@ -36,5 +36,45 @@ Your repository needs to contain a `wokwi.toml` file that describes the simulati
 | `serial_log_file` | Serial log file to be written (relative to the repository root)                  |               |
 | `diagram_file`    | Path to diagram.json file (relative to project directory)                        | diagram.json  |
 | `elf`             | Path to the ELF file to load into the simulation (relative to project directory) | wokwi.toml \* |
+| `heap_interval`   | Sample the ESP-IDF heap every this many milliseconds of simulated time           | 1000          |
+| `heap_min_free`   | Fail the test when the free ESP-IDF heap drops below this many bytes             |               |
+| `heap_csv`        | Write every heap sample to this CSV file (relative to the repository root)       |               |
+| `args`            | Additional [wokwi-cli options](https://docs.wokwi.com/wokwi-ci/cli-usage), separated by spaces |               |
 
 \* If not specified, the action will look for the `firmware` or `elf` keys in the `wokwi.toml` file.
+
+## Heap monitoring
+
+For ESP-IDF firmware, the action can follow the free heap during the simulation and fail the test when it drops below a limit, which catches memory leaks without any logging code in the firmware. Setting any of the `heap_*` inputs turns heap monitoring on. The ELF file must be set (`elf` in `wokwi.toml`, or the `elf` input):
+
+```yaml
+- name: Leak test with Wokwi
+  uses: wokwi/wokwi-ci-action@v1
+  with:
+    token: ${{ secrets.WOKWI_CLI_TOKEN }}
+    scenario: 'scenarios/leak.test.yaml'
+    timeout: 60000
+    heap_interval: 500
+    heap_min_free: 350000
+    heap_csv: 'heap.csv'
+
+- name: Upload heap samples
+  if: always()
+  uses: actions/upload-artifact@v4
+  with:
+    name: heap
+    path: heap.csv
+```
+
+See [Heap Monitoring](https://docs.wokwi.com/wokwi-ci/heap-monitoring) for details.
+
+## Other CLI options
+
+Use `args` to pass [wokwi-cli options](https://docs.wokwi.com/wokwi-ci/cli-usage) that have no input of their own. The value is split on spaces, so the options' values cannot contain spaces:
+
+```yaml
+- uses: wokwi/wokwi-ci-action@v1
+  with:
+    token: ${{ secrets.WOKWI_CLI_TOKEN }}
+    args: --vcd-file signals.vcd --timeout-exit-code 1
+```

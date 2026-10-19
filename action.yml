@@ -39,7 +39,23 @@ inputs:
     description: 'Serial log file to be written (relative to the repository root)'
     default: ''
     required: false
-    
+  heap_interval:
+    description: 'ESP-IDF heap monitoring: sample the heap every this many milliseconds of simulated time (default: 1000)'
+    default: ''
+    required: false
+  heap_min_free:
+    description: 'ESP-IDF heap monitoring: fail the test when the free heap drops below this many bytes'
+    default: ''
+    required: false
+  heap_csv:
+    description: 'ESP-IDF heap monitoring: write every heap sample to this CSV file (relative to the repository root)'
+    default: ''
+    required: false
+  args:
+    description: 'Additional wokwi-cli options, separated by spaces (values cannot contain spaces)'
+    default: ''
+    required: false
+
 runs:
   using: 'composite'
   steps:
@@ -49,14 +65,24 @@ runs:
         chmod +x /usr/local/bin/wokwi-cli
       shell: bash
     - run: |
+        heap_args=()
+        if [ -n "$CI_HEAP_INTERVAL" ]; then heap_args+=(--heap-interval "$CI_HEAP_INTERVAL"); fi
+        if [ -n "$CI_HEAP_MIN_FREE" ]; then heap_args+=(--heap-min-free "$CI_HEAP_MIN_FREE"); fi
+        if [ -n "$CI_HEAP_CSV" ]; then heap_args+=(--heap-csv "$CI_HEAP_CSV"); fi
+        # split on whitespace, without glob expansion
+        read -r -d '' -a extra_args <<< "$CI_ARGS" || true
         wokwi-cli --timeout "${{ inputs.timeout }}" --expect-text "$CI_EXPECT_TEXT" \
           ${{ inputs.diagram_file != '' && format('--diagram-file "{0}"', inputs.diagram_file) || '' }} \
           ${{ inputs.elf != '' && format('--elf "{0}"', inputs.elf) || '' }} \
           --fail-text "$CI_FAIL_TEXT" --scenario "${{ inputs.scenario }}" "${GITHUB_WORKSPACE}/${{ inputs.path }}" \
-          --serial-log-file "${{ inputs.serial_log_file }}"
+          --serial-log-file "${{ inputs.serial_log_file }}" "${heap_args[@]}" "${extra_args[@]}"
       env:
         WOKWI_CLI_TOKEN: ${{ inputs.token }}
         FORCE_COLOR: 2  # Enables color output - see https://github.com/chalk/supports-color/issues/106
         CI_EXPECT_TEXT: ${{ inputs.expect_text }}
         CI_FAIL_TEXT: ${{ inputs.fail_text }}
+        CI_HEAP_INTERVAL: ${{ inputs.heap_interval }}
+        CI_HEAP_MIN_FREE: ${{ inputs.heap_min_free }}
+        CI_HEAP_CSV: ${{ inputs.heap_csv }}
+        CI_ARGS: ${{ inputs.args }}
       shell: bash
