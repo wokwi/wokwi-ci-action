@@ -36,7 +36,7 @@ inputs:
     default: ''
     required: false
   serial_log_file:
-    description: 'Serial log file to be written (relative to project directory)'
+    description: 'Serial log file to be written (relative to the repository root)'
     default: ''
     required: false
     

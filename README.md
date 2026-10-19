@@ -33,7 +33,7 @@ Your repository needs to contain a `wokwi.toml` file that describes the simulati
 | `expect_text`     | Text to expect in the serial output                                              |               |
 | `fail_text`       | Text that indicates a test failure                                               |               |
 | `scenario`        | Path to scenario yaml file (relative to project directory)                       |               |
-| `serial_log_file` | Serial log file to be written (relative to project directory)                    | /             |
+| `serial_log_file` | Serial log file to be written (relative to the repository root)                  |               |
 | `diagram_file`    | Path to diagram.json file (relative to project directory)                        | diagram.json  |
 | `elf`             | Path to the ELF file to load into the simulation (relative to project directory) | wokwi.toml \* |
 
